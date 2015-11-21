@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MapViewController.h"
 #import "RSSModel.h"
 #import "offline.h"
 #import <math.h>
@@ -131,8 +132,8 @@
     [offline thetarandom:RSSdistance APx:a1 APy:a2 APnum:2];
     NSLog(@"RSSdistance");
     NSLog(@"%@",RSSdistance);
-
-
+    //MapViewController *sample = [MapViewController new];
+    
 
 
 }
