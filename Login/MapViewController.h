@@ -8,8 +8,6 @@
 
 @interface MapViewController : UIViewController
 <UIScrollViewDelegate,CBCentralManagerDelegate>
-@property NSInteger xx,yy;
-
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UILabel *xlabel;
 @property (strong, nonatomic) IBOutlet UILabel *ylabel;

@@ -10,6 +10,8 @@
     NSArray *carImageNames;
     UIImageView *image1;
     UIImageView *image2;
+    NSInteger xx;
+    NSInteger yy;
     NSInteger deltax;
     NSInteger step;
     NSInteger deltaz;
@@ -24,7 +26,7 @@
     /////
     NSMutableDictionary *rssReceived;
     RSSModel *sample;
-    OffLine *location;
+    //OffLine *location;
     ///////
 }
 
@@ -86,6 +88,8 @@
     
     
     CMAccelerometerData *newestAccel = self.motionManager.accelerometerData;
+    
+    
     double x = newestAccel.acceleration.x;
     //NSLog(@"%lf",x);
     NSString *str = [NSString stringWithFormat:@"%lf",x];
@@ -100,6 +104,12 @@
     data = [str dataUsingEncoding:NSUTF8StringEncoding];
     [outFile writeData:data];NSLog(@"\n");
 
+    
+    
+    
+    
+    
+    
     
     CMGyroData *newestgyro = self.motionManager.gyroData;
     CLHeading *heading = self.locationManager.heading;
@@ -162,21 +172,15 @@
     
     step=5;
     if(moving==1){
-        if(deltax==0)self.xx=self.xx+step;
-        if(deltax==2)self.xx=self.xx-step;
-        if(deltax==1)self.yy=self.yy+step;
-        if(deltax==3)self.yy=self.yy-step;
+        if(deltax==0)xx=xx+step;
+        if(deltax==2)xx=xx-step;
+        if(deltax==1)yy=yy+step;
+        if(deltax==3)yy=yy-step;
     }
    
-    extern NSMutableArray * RSSdistance;
-    if([RSSdistance[0] doubleValue] < 10)
-    {
-        NSLog(@"reset");
-        self.xx = 0;
-        self.yy = 0;
-    }
-    NSLog(@"%d",self.xx);
-    image1 = [[UIImageView alloc] initWithFrame:CGRectMake(55+self.xx,55+self.yy, 20,20)];
+    
+    
+    image1 = [[UIImageView alloc] initWithFrame:CGRectMake(55+xx,55+yy, 20,20)];
     image1.image=[UIImage imageNamed:@"self.png"];
     [carImageContainerView addSubview:image1];
     [image2 removeFromSuperview];
@@ -212,8 +216,8 @@
     
     _manager=[[CBCentralManager alloc]initWithDelegate:self queue:nil];
     _nAPs=[[NSMutableArray alloc]init];
-    //_textView = [[UITextView alloc]initWithFrame:CGRectMake(10, 250, 300, 200)];
-    //[self.view addSubview:_textView];
+    _textView = [[UITextView alloc]initWithFrame:CGRectMake(10, 250, 300, 200)];
+    [self.view addSubview:_textView];
     self.results=[[NSMutableDictionary alloc]init];
     if ([CMStepCounter isStepCountingAvailable]){
         self.stepCounter = [[CMStepCounter alloc] init];
@@ -336,7 +340,7 @@
 
 -(void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
 {   //NSLog(@"1123");
-    NSLog(@"%@ 's rssi is %@",peripheral.identifier.UUIDString,RSSI);
+    //NSLog(@"%@ 's rssi is %@",peripheral.identifier.UUIDString,RSSI);
     [_results setValue:[NSString stringWithFormat:@"%@",RSSI] forKey:[NSString stringWithFormat:@"%@",peripheral.identifier.UUIDString]];
     NSLog(@"%@",RSSI);
     
