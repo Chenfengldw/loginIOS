@@ -203,8 +203,8 @@
 -(void) Decent:(NSMutableArray *) theta APx:(NSMutableArray *)x APy:(NSMutableArray *)y RSSdistance:(NSMutableArray *)distance {
     for(int i=0;i<50;i++)
     [self gradient:theta APx:x APy:y RSSdistance:distance];
-    NSLog(@"theta");
-    NSLog(@"%@",theta);
+    //NSLog(@"theta");
+    //NSLog(@"%@",theta);
     
     
 }

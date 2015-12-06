@@ -10,8 +10,9 @@
     NSArray *carImageNames;
     UIImageView *image1;
     UIImageView *image2;
-    NSInteger xx;
-    NSInteger yy;
+    double xx;
+    double yy;
+    double zAccel;
     NSInteger deltax;
     NSInteger step;
     NSInteger deltaz;
@@ -20,9 +21,15 @@
     NSInteger moving;
     UIView *carImageContainerView;
     NSFileHandle *outFile;
-    
+    CMAttitude *initAttitude;
+    double startX;//the x coordinate of the start point
+    double startY;//the y coordinate of the start point
+    double boundaryXmin;
+    double boundaryXmax;
+    double boundaryYmin;
+    double boundaryYmax;
     NSInteger num;
-    
+    NSInteger bleChange;
     /////
     NSMutableDictionary *rssReceived;
     RSSModel *sample;
@@ -32,6 +39,9 @@
 
 
 #pragma mark - Utility Methods
+-(double)magnitudeFromAttitude:(CMAttitude *)attitude {
+    return sqrt(pow(attitude.roll, 2.0f) + pow(attitude.yaw, 2.0f) + pow(attitude.pitch, 2.0f));
+}
 
 - (void)setupScrollContent {
     if (carImageContainerView != nil) {
@@ -88,6 +98,11 @@
     
     
     CMAccelerometerData *newestAccel = self.motionManager.accelerometerData;
+    CMDeviceMotion *deviceMotion = self.motionManager.deviceMotion;
+    [self.motionManager startDeviceMotionUpdates];
+
+
+    
     
     
     double x = newestAccel.acceleration.x;
@@ -102,7 +117,7 @@
     double z = newestAccel.acceleration.z;
     str = [NSString stringWithFormat:@"%lf",z];//NSLog(@"%lf",z);
     data = [str dataUsingEncoding:NSUTF8StringEncoding];
-    [outFile writeData:data];NSLog(@"\n");
+    [outFile writeData:data];
 
     
     
@@ -112,7 +127,7 @@
     
     
     CMGyroData *newestgyro = self.motionManager.gyroData;
-    CLHeading *heading = self.locationManager.heading;
+   // CLHeading *heading = self.locationManager.heading;
     
     self.motionManager.accelerometerUpdateInterval = 0.01; // 告诉manager，更新频率是100Hz
     [self.motionManager startAccelerometerUpdates];
@@ -128,12 +143,11 @@
         [self.motionManager startGyroUpdates];
         
         
-        [self.xlabel setText:[NSString stringWithFormat:@"%f",newestgyro.rotationRate.x]];
-        [self.ylabel setText:[NSString stringWithFormat:@"%f",newestgyro.rotationRate.y]];
+       
         
     }
    
-    [self.locationManager requestAlwaysAuthorization];
+   /* [self.locationManager requestAlwaysAuthorization];
     if(!self.locationManager){[self.xlabel setText:[NSString stringWithFormat:@"%@",@"disabled"]];
         [self.locationManager requestAlwaysAuthorization];
         
@@ -145,42 +159,51 @@
     
         //self.locationManager.h
         [self.zlabel setText:[NSString stringWithFormat:@"%f",heading.trueHeading]];
-    }
+    }*/
 
     
     self.results=[[NSMutableDictionary alloc]init];
     
-    /////added by xudong
-    //[sample.RSSreceive removeAllObjects];
-    /////
+
+    
     [_manager scanForPeripheralsWithServices:nil options:@{CBCentralManagerScanOptionAllowDuplicatesKey : @YES }];
     [image1 removeFromSuperview];
-
-    if(checkRotate==0)
-    {
     
-        if(newestgyro.rotationRate.z>1){deltax=(deltax+1)%4;checkRotate=10;}
-        else if(newestgyro.rotationRate.z<-1){deltax=(deltax+3)%4;checkRotate=10;}
-    }
+
+    //********** moving part**************//
+    zAccel = newestAccel.acceleration.z+cos(deviceMotion.attitude.pitch);
+    [self.zlabel setText:[NSString stringWithFormat:@"%f",zAccel]];
+    
     moving=0;
-    if(newestAccel.acceleration.y<-0.2||newestAccel.acceleration.y>0.2)moving=1;checkMove=10;
+    if(zAccel<-0.06||zAccel>0.06)moving=1;checkMove=3;
     if(checkMove==0)
     {
-        if(newestAccel.acceleration.y>-0.2&&newestAccel.acceleration.y<0.2)moving=0;
+        if(zAccel+1>-0.06&&zAccel<0.06)moving=0;
         
     }
     
-    step=5;
+    step=10;
+    
     if(moving==1){
-        if(deltax==0)xx=xx+step;
-        if(deltax==2)xx=xx-step;
-        if(deltax==1)yy=yy+step;
-        if(deltax==3)yy=yy-step;
+        double tmpxx = xx-step*sin(deviceMotion.attitude.yaw);
+        
+
+        double tmpyy = yy-step*cos(deviceMotion.attitude.yaw);
+        
+        if((tmpxx+startX<boundaryXmax)&&(tmpxx+startX>boundaryXmin)&&(tmpyy+startY<boundaryYmax)&&(tmpyy+startY>boundaryYmin))
+        {
+            //NSLog(@"%d",1);
+            xx = tmpxx;
+            yy = tmpyy;
+        }
+        
+        
+        checkMove--;
     }
    
     
     
-    image1 = [[UIImageView alloc] initWithFrame:CGRectMake(55+xx,55+yy, 20,20)];
+    image1 = [[UIImageView alloc] initWithFrame:CGRectMake(xx+startX,yy+startY, 20,20)];
     image1.image=[UIImage imageNamed:@"self.png"];
     [carImageContainerView addSubview:image1];
     [image2 removeFromSuperview];
@@ -192,7 +215,7 @@
     if(checkMove>0)checkMove=checkMove-1;
     if(checkRotate>0)checkRotate=checkRotate-1;
     }
-////////////
+///************** moving part end ****************
 
 
 
@@ -202,7 +225,19 @@
     [super viewDidLoad];
     [self.locationManager requestAlwaysAuthorization];
     [self.locationManager startUpdatingHeading];
+    [self.motionManager startDeviceMotionUpdates];
     
+    //xx = 0;
+    //yy = 0;
+    startX = 20;
+    startY = 285;
+    boundaryXmin = 15;
+    boundaryYmin = 30;
+    boundaryXmax = 290;
+    boundaryYmax = 290;
+    
+    
+    CMAttitude * initAttitude = self.motionManager.deviceMotion.attitude;
     
     [[NSFileManager defaultManager]createFileAtPath:@"/Users/localization/Desktop/Login-2/Login/test.txt" contents:nil attributes:nil];
     
@@ -216,22 +251,13 @@
     
     _manager=[[CBCentralManager alloc]initWithDelegate:self queue:nil];
     _nAPs=[[NSMutableArray alloc]init];
-    _textView = [[UITextView alloc]initWithFrame:CGRectMake(10, 250, 300, 200)];
-    [self.view addSubview:_textView];
+    //_textView = [[UITextView alloc]initWithFrame:CGRectMake(10, 250, 300, 200)];
+    //[self.view addSubview:_textView];
     self.results=[[NSMutableDictionary alloc]init];
-    if ([CMStepCounter isStepCountingAvailable]){
-        self.stepCounter = [[CMStepCounter alloc] init];
-        NSOperationQueue *queue = [[NSOperationQueue alloc]init];
-        [self.stepCounter startStepCountingUpdatesToQueue:queue updateOn:5 withHandler:^(NSInteger numberOfSteps,NSDate *timestamp,NSError *error){
-            self.countLabel.text = [NSString stringWithFormat:@"已经走了%ld步",(long)numberOfSteps];
-        }];
-    }
-    else {
-            self.countLabel.text = @"计步器不可用";
-    }
+
     
     self.resetZoomButton.enabled = NO;
-    carImageNames = @[ @"p2.jpg",@"p3.jpg",@"p4.jpg"];
+    carImageNames = @[ @"room445.jpg",@"p3.jpg",@"p4.jpg"];
     [self setupScrollContent];
     ///////
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showview) name:@"showView" object:nil];
@@ -339,10 +365,73 @@
 }
 
 -(void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
-{   //NSLog(@"1123");
+{
     //NSLog(@"%@ 's rssi is %@",peripheral.identifier.UUIDString,RSSI);
     [_results setValue:[NSString stringWithFormat:@"%@",RSSI] forKey:[NSString stringWithFormat:@"%@",peripheral.identifier.UUIDString]];
-    NSLog(@"%@",RSSI);
+  
+    NSString *uuid = [peripheral.identifier.UUIDString substringFromIndex:24];
+   
+    //NSLog(uuid);
+    int tmp;
+    tmp = [RSSI intValue];
+    if(tmp>-50&&bleChange==0)
+    {
+        
+        
+        
+        if([uuid isEqualToString:@"2311FF526C8C"])
+        {
+            NSLog(@"changed1");
+            bleChange = 10;
+            xx = 30;
+            yy = -80;
+        }
+        if([uuid isEqualToString:@"E5FB07C0991"])
+        {
+            NSLog(@"changed2");
+            bleChange = 10;
+            xx = 30;
+            yy = -160;
+        }
+        if([uuid isEqualToString:@"B088AB1A62A3"])
+        {
+            NSLog(@"changed3");
+            bleChange = 10;
+            xx=100;
+            yy=-10;
+        }
+        if([uuid isEqualToString:@"E23E35A0F0A1"])
+        {
+            NSLog(@"changed4");
+            bleChange = 10;
+            xx = 200;
+            yy = -10;
+        }
+        if([uuid isEqualToString:@"FF5F466294F1"])
+        {
+            NSLog(@"changed5");
+            bleChange = 10;
+            xx = 270;
+            yy = -50;
+        }
+        if([uuid isEqualToString:@"3996EB5E586B"])
+        {
+            NSLog(@"changed6");
+            bleChange = 10;
+            xx = 270;
+            yy = -100;
+        }
+        if([uuid isEqualToString:@"508B41ADB4ED"])
+        {
+            NSLog(@"changed7");
+            bleChange = 10;
+            xx = 270;
+            yy = -180;
+        }
+        
+    }
+    
+    if(bleChange>0)bleChange--;
     
     // to-do 查询UUID是否在已知设备列表
     //if([peripheral.identifier.UUIDString isEqualToString:@"468B03B5-5702-0794-7B1B-7E5A89760ECD"]){}

@@ -47,8 +47,13 @@
 		235FE82B18B9DE270021ECBD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 235FE80D18B9DE270021ECBD /* UIKit.framework */; };
 		235FE83318B9DE270021ECBD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 235FE83118B9DE270021ECBD /* InfoPlist.strings */; };
 		235FE83518B9DE270021ECBD /* LoginTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 235FE83418B9DE270021ECBD /* LoginTests.m */; };
-		881B6C771BEB945600A49C6C /* offline.m in Sources */ = {isa = PBXBuildFile; fileRef = 881B6C741BEB945600A49C6C /* offline.m */; };
 		881B6C781BEB945600A49C6C /* RSSModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 881B6C761BEB945600A49C6C /* RSSModel.m */; };
+		882C02D51C003FD40012C4AF /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 882C02D41C003FD40012C4AF /* CoreMotion.framework */; };
+		882C02D71C003FDC0012C4AF /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 882C02D61C003FDC0012C4AF /* AudioToolbox.framework */; };
+		882C02D91C0040020012C4AF /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 882C02D81C0040020012C4AF /* MediaPlayer.framework */; };
+		882C02DB1C00400F0012C4AF /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 882C02DA1C00400F0012C4AF /* MessageUI.framework */; };
+		882C02DD1C00401A0012C4AF /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 882C02DC1C00401A0012C4AF /* libz.dylib */; };
+		882C02E31C0AE10F0012C4AF /* room445.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 882C02E21C0AE10F0012C4AF /* room445.jpg */; };
 		8867F2411BB95C5000F9CC1A /* TTObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 8867F2401BB95C5000F9CC1A /* TTObject.m */; };
 		886E04ED1BFB1F2C00C5222A /* test.txt in Resources */ = {isa = PBXBuildFile; fileRef = 886E04EC1BFB1F2C00C5222A /* test.txt */; };
 		8896DB701BB1852700C78966 /* registerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8896DB6F1BB1852700C78966 /* registerViewController.m */; };
@@ -129,10 +134,14 @@
 		235FE83018B9DE270021ECBD /* LoginTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LoginTests-Info.plist"; sourceTree = "<group>"; };
 		235FE83218B9DE270021ECBD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		235FE83418B9DE270021ECBD /* LoginTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginTests.m; sourceTree = "<group>"; };
-		881B6C731BEB945600A49C6C /* offline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = offline.h; sourceTree = "<group>"; };
-		881B6C741BEB945600A49C6C /* offline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = offline.m; sourceTree = "<group>"; };
 		881B6C751BEB945600A49C6C /* RSSModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSModel.h; sourceTree = "<group>"; };
 		881B6C761BEB945600A49C6C /* RSSModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSModel.m; sourceTree = "<group>"; };
+		882C02D41C003FD40012C4AF /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		882C02D61C003FDC0012C4AF /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		882C02D81C0040020012C4AF /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		882C02DA1C00400F0012C4AF /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		882C02DC1C00401A0012C4AF /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		882C02E21C0AE10F0012C4AF /* room445.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = room445.jpg; path = ../../../Downloads/room445.jpg; sourceTree = "<group>"; };
 		8867F23F1BB95C5000F9CC1A /* TTObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTObject.h; path = thirdparty/Map/TTObject.h; sourceTree = "<group>"; };
 		8867F2401BB95C5000F9CC1A /* TTObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTObject.m; path = thirdparty/Map/TTObject.m; sourceTree = "<group>"; };
 		886E04EC1BFB1F2C00C5222A /* test.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.txt; sourceTree = "<group>"; };
@@ -165,6 +174,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				882C02DD1C00401A0012C4AF /* libz.dylib in Frameworks */,
+				882C02DB1C00400F0012C4AF /* MessageUI.framework in Frameworks */,
+				882C02D91C0040020012C4AF /* MediaPlayer.framework in Frameworks */,
+				882C02D71C003FDC0012C4AF /* AudioToolbox.framework in Frameworks */,
+				882C02D51C003FD40012C4AF /* CoreMotion.framework in Frameworks */,
 				1121EA921BC5477500CC7249 /* CoreBluetooth.framework in Frameworks */,
 				116E582F1B7BA1A700EAFED0 /* libsqlite3.dylib in Frameworks */,
 				235FE80C18B9DE270021ECBD /* CoreGraphics.framework in Frameworks */,
@@ -208,6 +222,11 @@
 		235FE80818B9DE270021ECBD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				882C02DC1C00401A0012C4AF /* libz.dylib */,
+				882C02DA1C00400F0012C4AF /* MessageUI.framework */,
+				882C02D81C0040020012C4AF /* MediaPlayer.framework */,
+				882C02D61C003FDC0012C4AF /* AudioToolbox.framework */,
+				882C02D41C003FD40012C4AF /* CoreMotion.framework */,
 				1121EA911BC5477500CC7249 /* CoreBluetooth.framework */,
 				8896DB771BB4CDDF00C78966 /* HealthKit.framework */,
 				116E582E1B7BA1A700EAFED0 /* libsqlite3.dylib */,
@@ -228,8 +247,6 @@
 				235FE81918B9DE270021ECBD /* loginAppDelegate.m */,
 				11F37E061BAFF89500BC20A5 /* comWithDB.h */,
 				11F37E071BAFF89500BC20A5 /* comWithDB.m */,
-				881B6C731BEB945600A49C6C /* offline.h */,
-				881B6C741BEB945600A49C6C /* offline.m */,
 				881B6C751BEB945600A49C6C /* RSSModel.h */,
 				881B6C761BEB945600A49C6C /* RSSModel.m */,
 				11A76C6F1BC2B78B00572BDD /* Main.storyboard */,
@@ -258,6 +275,7 @@
 		235FE81018B9DE270021ECBD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				882C02E21C0AE10F0012C4AF /* room445.jpg */,
 				8896DB8E1BB92C9100C78966 /* friend.png */,
 				8896DB8F1BB92C9100C78966 /* p2.jpg */,
 				8896DB901BB92C9100C78966 /* p3.jpg */,
@@ -416,6 +434,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				11E396121BACEE08009F2CD2 /* menu_location_selected.png in Resources */,
+				882C02E31C0AE10F0012C4AF /* room445.jpg in Resources */,
 				11E396141BACEE08009F2CD2 /* menu_setting_selected.png in Resources */,
 				11E3960E1BACEE08009F2CD2 /* login_userimage.png in Resources */,
 				8896DB961BB92C9100C78966 /* p4.jpg in Resources */,
@@ -474,7 +493,6 @@
 				8896DB731BB19F7B00C78966 /* newKeyViewController.m in Sources */,
 				116179E71B835429007C53F6 /* ContactViewController.m in Sources */,
 				116179D91B83459B007C53F6 /* NTContactGroup.m in Sources */,
-				881B6C771BEB945600A49C6C /* offline.m in Sources */,
 				116179D81B83459B007C53F6 /* NTContact.m in Sources */,
 				11F37E081BAFF89500BC20A5 /* comWithDB.m in Sources */,
 				889BA04A1BD9B83400AC5EAF /* aboutViewController.m in Sources */,
@@ -616,6 +634,7 @@
 				);
 				INFOPLIST_FILE = "Login/Login-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "5cda504a-5467-4c70-8cf2-eb443ab8ce7b";
 				SDKROOT = iphoneos8.4;
@@ -641,6 +660,7 @@
 				);
 				INFOPLIST_FILE = "Login/Login-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "5cda504a-5467-4c70-8cf2-eb443ab8ce7b";
 				SDKROOT = iphoneos8.4;
